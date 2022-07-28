@@ -1,0 +1,66 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+*:active,
+*:focus {
+  border-color: inherit;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  outline: none;
+}
+
+body,
+html {
+  font-size: 16px;
+}
+
+html {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #fff;
+  color: #000;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  overflow: hidden;
+  padding: 0 15px;
+}
+
+a,
+a:link,
+a:visited,
+button,
+[role="button"],
+[type="button"],
+[type="submit"] {
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+[type="button"],
+[type="text"],
+[role="button"],
+button {
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+  text-indent: 0;
+}
