@@ -63,8 +63,6 @@
 
 				this.gridState.push(box);
 			}
-
-			document.onkeydown = (e) => this.handleCellInput(e);
 		},
 		mounted() {
 			this.focusActiveCellInput();
