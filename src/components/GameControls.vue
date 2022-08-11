@@ -10,11 +10,6 @@
 				type: Boolean,
 				required: true,
 				default: false
-			},
-			numStates: {
-				type: Number,
-				required: true,
-				default: 0
 			}
 		}
 	};
@@ -58,7 +53,7 @@
 		</li>
 		<li>
 			<button
-				:class="numStates ? 'primary' : 'secondary'"
+				class="secondary"
 				@click.prevent="$emit('undo')"
 			>
 				<i class="fa-solid fa-rotate-left"></i>
@@ -129,9 +124,6 @@
 				font-size: 18px;
 				padding: 12px 23px 22px;
 				position: relative;
-				user-select: none;
-				-webkit-touch-callout: none;
-				-webkit-user-select: none;
 
 				&:nth-of-type(1) {
 					width: 65.78px;
@@ -203,9 +195,6 @@
 					position: absolute;
 					right: 0;
 					text-align: center;
-					user-select: none;
-					-webkit-touch-callout: none;
-					-webkit-user-select: none;
 					width: 100%;
 				}
 			}

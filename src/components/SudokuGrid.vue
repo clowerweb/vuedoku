@@ -63,6 +63,8 @@
 
 				this.gridState.push(box);
 			}
+
+			document.onkeydown = (e) => this.handleCellInput(e);
 		},
 		mounted() {
 			this.focusActiveCellInput();
@@ -480,7 +482,7 @@
 				const activeCellContainer = document.getElementsByClassName('grid-cell active');
 
 				if (activeCellContainer && activeCellContainer.length) {
-					const input = activeCellContainer[0].getElementsByTagName('input')[0];
+					const input = activeCellContainer[0].getElementsByClassName('cell-val')[0];
 
 					input.focus();
 				}
@@ -529,6 +531,7 @@
 				v-for="cell in box"
 				class="grid-cell"
 				:class="getCellClass(cell)"
+				@click="handleCellFocus(cell)"
 			>
 				<div class="cell-notes">
 					<span
@@ -539,17 +542,10 @@
 						{{ i }}
 					</span>
 				</div>
-				<input
-					type="text"
-					maxlength="1"
-					:value="cell.val"
-					@focus="handleCellFocus(cell)"
-					@keydown.prevent="handleCellInput($event)"
-					@paste.prevent="preventEvent"
-					@dragstart.prevent="preventEvent"
-					@dragend.prevent="preventEvent"
-					@drop.prevent="preventEvent"
-				/>
+
+				<span class="cell-val">
+					{{ cell.val }}
+				</span>
 			</div>
 		</div>
 	</div>
@@ -604,7 +600,7 @@
 				&.matched {
 					background-color: rgba(0, 180, 100, .3);
 
-					input {
+					.cell-val {
 						text-shadow: 0 0 0 rgba(0, 255, 100, 1);
 					}
 				}
@@ -612,18 +608,18 @@
 				&.error {
 					background-color: rgba(255, 50, 50, .3);
 
-					input {
+					.cell-val {
 						text-shadow: 0 0 0 rgba(220, 130, 30, .9);
 					}
 				}
 
 				&.locked {
-					input {
+					.cell-val {
 						text-shadow: 0 0 0 rgba(255, 255, 255, 1);
 					}
 
 					&.error {
-						input {
+						.cell-val {
 							text-shadow: 0 0 0 rgba(255, 150, 150, 1);
 						}
 					}
@@ -648,9 +644,6 @@
 						flex-basis: 33.33%;
 						font-size: 13px;
 						justify-content: center;
-						user-select: none;
-						-webkit-touch-callout: none;
-						-webkit-user-select: none;
 						visibility: hidden;
 
 						&.active {
@@ -663,33 +656,25 @@
 					}
 				}
 
-				input {
+				.cell-val {
 					background-color: transparent;
 					border: none;
 					bottom: 0;
 					box-shadow: none !important;
-					color: transparent;
+					color: rgba(220, 130, 30, 1);
 					cursor: default;
 					display: block;
 					font-size: 36px;
 					font-weight: 700;
 					height: 100%;
 					left: 0;
-					line-height: 3 !important;
+					line-height: 1.9 !important;
 					padding: 0;
 					position: absolute;
 					right: 0;
 					text-align: center;
-					text-shadow: 0 0 0 rgba(220, 130, 30, 1);
 					top: 0;
 					width: 100%;
-					-webkit-appearance: none;
-
-					&:active,
-					&:focus,
-					&:target {
-						outline: none;
-					}
 				}
 			}
 		}
