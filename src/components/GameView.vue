@@ -9,6 +9,7 @@
 			return {
 				locked: false,
 				noteMode: false,
+				shiftDown: false,
 				gridState: []
 			};
 		},
@@ -23,15 +24,15 @@
 		},
 		mounted() {
 			document.addEventListener('keydown', (e) => {
-				const numPadKeyCodes = [35, 40, 34, 37, 12, 39, 36, 38, 33];
 				const numPadCodes = [];
 
 				for (let i = 1; i < 10; i++) {
 					numPadCodes.push(`Numpad${i}`);
 				}
 
-				if (e.key === 'Shift' || (numPadKeyCodes.includes(e.keyCode) && numPadCodes.includes(e.code))) {
+				if (e.key === 'Shift') {
 					e.preventDefault();
+					this.shiftDown = true;
 					this.noteMode = true;
 				}
 
@@ -40,6 +41,7 @@
 
 			document.addEventListener('keyup', (e) => {
 				if (e.key === 'Shift') {
+					this.shiftDown = false;
 					this.noteMode = false;
 				}
 			});
@@ -95,6 +97,7 @@
 				ref="game"
 				@stateChange="handleStateChange"
 				:note-mode="noteMode"
+				:shift-down="shiftDown"
 				:cells-with-value="cellsWithValue"
 			></SudokuGrid>
 		</main>

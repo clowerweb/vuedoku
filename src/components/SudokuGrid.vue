@@ -6,6 +6,11 @@
 				required: true,
 				default: false
 			},
+			shiftDown: {
+				type: Boolean,
+				required: true,
+				default: false
+			},
 			cellsWithValue: {
 				type: Array,
 				required: true
@@ -230,12 +235,20 @@
 				const cellsBehind = this.cellsInCol.filter(cell => cell.id < this.activeCell.id);
 				return cellsBehind.length ? cellsBehind[cellsBehind.length - 1] : this.cellsInCol[8];
 			},
-			/*nextCellInBox() {
+			nextCellInTab() {
+				const next = this.gridState.map(box => box.filter(
+						obj => obj.id === this.activeCell.id + 1
+				));
 
+				return this.filterGridCells(next)[0] ?? this.gridState[0][0];
 			},
-			previousCellInBox() {
+			previousCellInTab() {
+				const prev = this.gridState.map(box => box.filter(
+						obj => obj.id === this.activeCell.id - 1
+				));
 
-			}*/
+				return this.filterGridCells(prev)[0] ?? this.gridState[8][8];
+			}
 		},
 		methods: {
 			handleStateChange() {
@@ -272,6 +285,8 @@
 			 * Set the value of a cell
 			 */
 			handleCellInput(e) {
+				this.preventEvent(e);
+
 				if (!this.activeCell.locked) {
 					let key = e.code;
 
@@ -315,6 +330,9 @@
 						case 'Backspace':
 						case 'Delete':
 							key = 'Delete';
+							break;
+						case 'Tab':
+							key = this.shiftDown ? 'ShiftTab' : 'Tab';
 							break;
 						default:
 							key = null;
@@ -367,6 +385,12 @@
 							case 'ArrowDown':
 								this.handleCellFocus(this.nextCellInCol);
 								break;
+						}
+
+						if (key === 'Tab') {
+							this.handleCellFocus(this.nextCellInTab);
+						} else if (key === 'ShiftTab') {
+							this.handleCellFocus(this.previousCellInTab);
 						}
 					} else {
 						this.activeCell.val = null;
