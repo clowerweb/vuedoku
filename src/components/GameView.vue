@@ -9,8 +9,7 @@
 			return {
 				locked: false,
 				noteMode: false,
-				gridState: [],
-				history: []
+				gridState: []
 			};
 		},
 		computed: {
@@ -46,7 +45,6 @@
 		methods: {
 			handleStateChange(state) {
 				this.gridState = state;
-				//this.history.push(this.deepCopy(state));
 			},
 			deepCopy(obj) {
 				return JSON.parse(JSON.stringify(obj));
@@ -73,16 +71,6 @@
 				this.$refs.game.focusActiveCellInput();
 			},
 			undo() {
-				/*if (this.history.length > 1) {
-					this.history.splice(this.history.length - 1, 1);
-				} else {
-
-				}
-
-				const historyCopy = this.deepCopy(this.history[this.history.length - 1]);
-
-				this.gridState = historyCopy;
-				this.$refs.game.setGridState(historyCopy);*/
 				this.$refs.game.focusActiveCellInput();
 			},
 			redo() {
@@ -130,7 +118,6 @@
 				@clearAll="clearAll"
 				:locked="locked"
 				:note-mode="noteMode"
-				:num-states="this.history.length"
 			></GameControls>
 		</footer>
 	</article>

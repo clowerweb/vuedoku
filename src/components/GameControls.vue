@@ -10,11 +10,6 @@
 				type: Boolean,
 				required: true,
 				default: false
-			},
-			numStates: {
-				type: Number,
-				required: true,
-				default: 0
 			}
 		}
 	};
@@ -58,7 +53,7 @@
 		</li>
 		<li>
 			<button
-				:class="numStates ? 'primary' : 'secondary'"
+				class="secondary"
 				@click.prevent="$emit('undo')"
 			>
 				<i class="fa-solid fa-rotate-left"></i>
