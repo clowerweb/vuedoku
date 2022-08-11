@@ -252,6 +252,7 @@
 						cell.val = null;
 						cell.notes = [];
 						cell.locked = false;
+						cell.error = false;
 					}
 				}
 
