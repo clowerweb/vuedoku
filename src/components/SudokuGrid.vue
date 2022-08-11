@@ -237,14 +237,14 @@
 			},
 			nextCellInTab() {
 				const next = this.gridState.map(box => box.filter(
-						obj => obj.id === this.activeCell.id + 1
+					obj => obj.id === this.activeCell.id + 1
 				));
 
 				return this.filterGridCells(next)[0] ?? this.gridState[0][0];
 			},
 			previousCellInTab() {
 				const prev = this.gridState.map(box => box.filter(
-						obj => obj.id === this.activeCell.id - 1
+					obj => obj.id === this.activeCell.id - 1
 				));
 
 				return this.filterGridCells(prev)[0] ?? this.gridState[8][8];
