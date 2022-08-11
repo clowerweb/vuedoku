@@ -252,6 +252,7 @@
 						cell.val = null;
 						cell.notes = [];
 						cell.locked = false;
+						cell.error = false;
 					}
 				}
 
@@ -601,7 +602,7 @@
 					background-color: rgba(0, 180, 100, .3);
 
 					.cell-val {
-						text-shadow: 0 0 0 rgba(0, 255, 100, 1);
+						color: rgba(0, 255, 100, 1);
 					}
 				}
 
@@ -609,18 +610,18 @@
 					background-color: rgba(255, 50, 50, .3);
 
 					.cell-val {
-						text-shadow: 0 0 0 rgba(220, 130, 30, .9);
+						color: rgba(220, 130, 30, .9);
 					}
 				}
 
 				&.locked {
 					.cell-val {
-						text-shadow: 0 0 0 rgba(255, 255, 255, 1);
+						color: rgba(255, 255, 255, 1);
 					}
 
 					&.error {
 						.cell-val {
-							text-shadow: 0 0 0 rgba(255, 150, 150, 1);
+							color: rgba(255, 150, 150, 1);
 						}
 					}
 				}
