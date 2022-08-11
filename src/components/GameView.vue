@@ -34,6 +34,8 @@
 					e.preventDefault();
 					this.noteMode = true;
 				}
+
+				this.$refs.game.handleCellInput(e);
 			});
 
 			document.addEventListener('keyup', (e) => {
@@ -45,9 +47,6 @@
 		methods: {
 			handleStateChange(state) {
 				this.gridState = state;
-			},
-			deepCopy(obj) {
-				return JSON.parse(JSON.stringify(obj));
 			},
 			setNumber(num) {
 				this.$refs.game.handleCellInput({ code: `Digit${num}` });
