@@ -70,9 +70,6 @@
 				font-size: 26px;
 				padding: 6px 24.67px 22px;
 				position: relative;
-				user-select: none;
-				-webkit-touch-callout: none;
-				-webkit-user-select: none;
 
 				&.primary {
 					background-color: #0d6efd;
@@ -111,9 +108,6 @@
 					position: absolute;
 					right: 0;
 					text-align: center;
-					user-select: none;
-					-webkit-touch-callout: none;
-					-webkit-user-select: none;
 					width: 100%;
 				}
 			}

@@ -124,9 +124,6 @@
 				font-size: 18px;
 				padding: 12px 23px 22px;
 				position: relative;
-				user-select: none;
-				-webkit-touch-callout: none;
-				-webkit-user-select: none;
 
 				&:nth-of-type(1) {
 					width: 65.78px;
@@ -198,9 +195,6 @@
 					position: absolute;
 					right: 0;
 					text-align: center;
-					user-select: none;
-					-webkit-touch-callout: none;
-					-webkit-user-select: none;
 					width: 100%;
 				}
 			}
