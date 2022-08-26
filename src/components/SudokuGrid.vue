@@ -254,9 +254,6 @@
 			handleStateChange() {
 				this.$emit('state-change', this.gridState);
 			},
-			setGridState(state) {
-				this.gridState = state;
-			},
 			resetBoard() {
 				for (const box of this.gridState) {
 					for (const cell of box) {
@@ -285,7 +282,9 @@
 			 * Set the value of a cell
 			 */
 			handleCellInput(e) {
-				this.preventEvent(e);
+				if (e.key) {
+					this.preventEvent(e);
+				}
 
 				if (!this.activeCell.locked) {
 					let key = e.code;
@@ -398,8 +397,6 @@
 						this.handleStateChange();
 						this.checkErrors();
 					}
-				} else {
-					this.preventEvent(e);
 				}
 
 				return false;
