@@ -2,15 +2,17 @@
 	import SudokuGrid from '@/components/SudokuGrid.vue';
 	import GameNumberPad from '@/components/GameNumberPad.vue';
 	import GameControls from '@/components/GameControls.vue';
+	import Modal from '@/components/Modal.vue';
 
 	export default {
-		components: { SudokuGrid, GameNumberPad, GameControls },
+		components: { SudokuGrid, GameNumberPad, GameControls, Modal },
 		data() {
 			return {
 				locked: false,
 				noteMode: false,
 				shiftDown: false,
-				gridState: []
+				gridState: [],
+				openModals: [],
 			};
 		},
 		computed: {
@@ -83,9 +85,39 @@
 			solve() {
 				this.$refs.game.focusActiveCellInput();
 			},
+			clearNotes() {
+				console.log('clear notes');
+				this.closeModal('clear-modal');
+			},
+			clearUnlocked() {
+				console.log('clear unlocked');
+				this.closeModal('clear-modal');
+			},
+			clearNotesAndUnlocked() {
+				console.log('clear notes and unlocked');
+				this.closeModal('clear-modal');
+			},
 			clearAll() {
 				this.$refs.game.resetBoard();
-			}
+				this.closeModal('clear-modal');
+			},
+			openModal(modalId) {
+				const idx = this.openModals.indexOf(modalId);
+
+				if (idx === -1) {
+					this.openModals.push(modalId);
+				}
+			},
+			closeModal(modalId) {
+				const idx = this.openModals.indexOf(modalId);
+
+				if (idx > -1) {
+					this.openModals.splice(idx, 1);
+				}
+			},
+			modalAction(action) {
+				this[action]();
+			},
 		}
 	};
 </script>
@@ -117,11 +149,38 @@
 				@redo="redo"
 				@hint="hint"
 				@solve="solve"
-				@clearAll="clearAll"
+				@clear="openModal('clear-modal')"
 				:locked="locked"
 				:note-mode="noteMode"
 			></GameControls>
 		</footer>
+
+		<Modal
+			:set="theId = 'clear-modal'"
+			:modal-id="theId"
+			:is-open="openModals.includes(theId)"
+			cancel-text="Cancel"
+			@closeModal="closeModal"
+			@doAction="modalAction"
+		>
+			<template v-slot:title>Clear Board Elements</template>
+			<template v-slot:description>
+				<ul class="modal-options">
+					<li>
+						<button class="primary" @click="clearNotes">Clear Notes</button>
+					</li>
+					<li>
+						<button class="primary" @click="clearUnlocked">Clear Unlocked</button>
+					</li>
+					<li>
+						<button class="primary" @click="clearNotesAndUnlocked">Clear Notes & Unlocked</button>
+					</li>
+					<li>
+						<button class="danger" @click="clearAll">Clear EVERYTHING</button>
+					</li>
+				</ul>
+			</template>
+		</Modal>
 	</article>
 </template>
 
@@ -136,6 +195,19 @@
 		footer {
 			position: relative;
 			z-index: 99;
+		}
+	}
+
+	.modal-options {
+		li {
+			+ li {
+				margin-top: 15px;
+			}
+
+			button {
+				display: block;
+				width: 100%;
+			}
 		}
 	}
 </style>
