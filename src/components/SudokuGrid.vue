@@ -254,6 +254,30 @@
 			handleStateChange() {
 				this.$emit('state-change', this.gridState);
 			},
+			resetNotes() {
+				for (const box of this.gridState) {
+					for (const cell of box) {
+						cell.notes = [];
+					}
+				}
+
+				this.$emit('state-change', this.gridState);
+			},
+			resetUnlocked() {
+				for (const box of this.gridState) {
+					for (const cell of box) {
+						if (cell.val && !cell.locked) {
+							cell.val = null;
+						}
+					}
+				}
+
+				this.$emit('state-change', this.gridState);
+			},
+			resetNotesAndUnlocked() {
+				this.resetNotes();
+				this.resetUnlocked();
+			},
 			resetBoard() {
 				for (const box of this.gridState) {
 					for (const cell of box) {

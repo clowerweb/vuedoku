@@ -86,15 +86,15 @@
 				this.$refs.game.focusActiveCellInput();
 			},
 			clearNotes() {
-				console.log('clear notes');
+				this.$refs.game.resetNotes();
 				this.closeModal('clear-modal');
 			},
 			clearUnlocked() {
-				console.log('clear unlocked');
+				this.$refs.game.resetUnlocked();
 				this.closeModal('clear-modal');
 			},
 			clearNotesAndUnlocked() {
-				console.log('clear notes and unlocked');
+				this.$refs.game.resetNotesAndUnlocked();
 				this.closeModal('clear-modal');
 			},
 			clearAll() {
