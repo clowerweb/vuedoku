@@ -16,7 +16,7 @@
 </script>
 
 <template>
-	<ul>
+	<ul class="btn-group">
 		<li>
 			<button
 				:class="locked ? 'success' : 'primary'"
@@ -84,10 +84,10 @@
 		<li>
 			<button
 				class="danger"
-				@click="$emit('clear-all')"
+				@click="$emit('clear')"
 			>
 				<i class="fa-solid fa-trash-can"></i>
-				<span>Clear All</span>
+				<span>Clear...</span>
 			</button>
 		</li>
 	</ul>
@@ -95,90 +95,12 @@
 
 <style scoped lang="scss">
 	ul {
-		display: flex;
-		justify-content: center;
-		margin-top: 5px;
-
 		> li {
-			&:first-of-type {
-				button {
-					border-bottom-left-radius: 4px;
-					border-top-left-radius: 4px;
-				}
-			}
-
-			&:last-of-type {
-				button {
-					border-bottom-right-radius: 4px;
-					border-top-right-radius: 4px;
-				}
-			}
-
-			+ li {
-				border-left: 1px solid #fff;
-			}
-
 			button {
-				border: 1px solid transparent;
-				color: #fff;
-				font-size: 18px;
-				padding: 12px 23px 22px;
-				position: relative;
+				padding-bottom: 22px;
 
 				&:nth-of-type(1) {
 					width: 65.78px;
-				}
-
-				&.primary {
-					background-color: #0d6efd;
-					border-color: #0d6efd;
-
-					&:active,
-					&:focus,
-					&:hover,
-					&:target {
-						background-color: #0b5ed7;
-						border-color: #0a58ca;
-					}
-				}
-
-				&.success {
-					background-color: #198754;
-					border-color: #198754;
-
-					&:active,
-					&:focus,
-					&:hover,
-					&:target {
-						background-color: #157347;
-						border-color: #146c43;
-					}
-				}
-
-				&.secondary {
-					background-color: #6c757d;
-					border-color: #6c757d;
-
-					&:active,
-					&:focus,
-					&:hover,
-					&:target {
-						background-color: #5c636a;
-						border-color: #565e64;
-					}
-				}
-
-				&.danger {
-					background-color: #dc3545;
-					border-color: #dc3545;
-
-					&:active,
-					&:focus,
-					&:hover,
-					&:target {
-						background-color: #bb2d3b;
-						border-color: #b02a37;
-					}
 				}
 
 				> i {
