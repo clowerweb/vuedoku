@@ -26,7 +26,7 @@
 </script>
 
 <template>
-	<ul>
+	<ul class="btn-group">
 		<li v-for="i in 9">
 			<button
 				:class="getRemaining(i) === 0 ? 'secondary' : 'primary'"
@@ -48,56 +48,10 @@
 		margin-top: 5px;
 
 		> li {
-			&:first-of-type {
-				button {
-					border-radius: 4px 0 0 4px;
-				}
-			}
-
-			&:last-of-type {
-				button {
-					border-radius: 0 4px 4px 0;
-				}
-			}
-
-			+ li {
-				border-left: 1px solid #fff;
-			}
-
 			button {
-				border: 1px solid transparent;
-				color: #fff;
 				font-size: 26px;
 				padding: 6px 24.67px 22px;
 				position: relative;
-
-				&.primary {
-					background-color: #0d6efd;
-					border-color: #0d6efd;
-
-					&:active,
-					&:focus,
-					&:hover,
-					&:target {
-						background-color: #0b5ed7;
-						border-color: #0a58ca;
-					}
-				}
-
-				&.secondary {
-					background-color: #6c757d;
-					border-color: #6c757d;
-					cursor: default;
-					pointer-events: none;
-
-					&:active,
-					&:focus,
-					&:hover,
-					&:target {
-						background-color: #5c636a;
-						border-color: #565e64;
-					}
-				}
 
 				> span {
 					bottom: 0;

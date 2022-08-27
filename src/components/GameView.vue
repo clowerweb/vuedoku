@@ -2,15 +2,17 @@
 	import SudokuGrid from '@/components/SudokuGrid.vue';
 	import GameNumberPad from '@/components/GameNumberPad.vue';
 	import GameControls from '@/components/GameControls.vue';
+	import Modal from '@/components/Modal.vue';
 
 	export default {
-		components: { SudokuGrid, GameNumberPad, GameControls },
+		components: { SudokuGrid, GameNumberPad, GameControls, Modal },
 		data() {
 			return {
 				locked: false,
 				noteMode: false,
 				shiftDown: false,
-				gridState: []
+				gridState: [],
+				openModals: [],
 			};
 		},
 		computed: {
@@ -23,6 +25,17 @@
 			},
 		},
 		mounted() {
+			let puzzle;
+			const params = new Proxy(new URLSearchParams(window.location.search), {
+				get: (searchParams, prop) => searchParams.get(prop),
+			});
+
+			puzzle = params.puzzle;
+
+			if (puzzle) {
+				this.setPuzzle(puzzle);
+			}
+
 			document.addEventListener('keydown', (e) => {
 				const numPadCodes = [];
 
@@ -47,6 +60,34 @@
 			});
 		},
 		methods: {
+			setPuzzle(puzzle) {
+				const newState = puzzle.split('');
+				const chunkSize = 9;
+				const chunks = [];
+
+				for (let i = 0; i < newState.length; i += chunkSize) {
+					chunks.push(newState.slice(i, i + chunkSize));
+				}
+
+				if (newState.length === 81) {
+					for (let i = 0; i < chunks.length; i++) {
+						const gridRow = this.gridState.map(box => {
+							return box.filter(cell => cell.position.row === i);
+						});
+						const row = [].concat.apply([], gridRow);
+
+						for (let x = 0; x < chunks[i].length; x++) {
+							const val = chunks[i][x];
+
+							if (val.match(/[1-9]/)) {
+								row[x].val = chunks[i][x];
+							}
+						}
+					}
+
+					this.$refs.game.checkErrors();
+				}
+			},
 			handleStateChange(state) {
 				this.gridState = state;
 			},
@@ -83,9 +124,39 @@
 			solve() {
 				this.$refs.game.focusActiveCellInput();
 			},
+			clearNotes() {
+				this.$refs.game.resetNotes();
+				this.closeModal('clear-modal');
+			},
+			clearUnlocked() {
+				this.$refs.game.resetUnlocked();
+				this.closeModal('clear-modal');
+			},
+			clearNotesAndUnlocked() {
+				this.$refs.game.resetNotesAndUnlocked();
+				this.closeModal('clear-modal');
+			},
 			clearAll() {
 				this.$refs.game.resetBoard();
-			}
+				this.closeModal('clear-modal');
+			},
+			openModal(modalId) {
+				const idx = this.openModals.indexOf(modalId);
+
+				if (idx === -1) {
+					this.openModals.push(modalId);
+				}
+			},
+			closeModal(modalId) {
+				const idx = this.openModals.indexOf(modalId);
+
+				if (idx > -1) {
+					this.openModals.splice(idx, 1);
+				}
+			},
+			modalAction(action) {
+				this[action]();
+			},
 		}
 	};
 </script>
@@ -117,11 +188,38 @@
 				@redo="redo"
 				@hint="hint"
 				@solve="solve"
-				@clearAll="clearAll"
+				@clear="openModal('clear-modal')"
 				:locked="locked"
 				:note-mode="noteMode"
 			></GameControls>
 		</footer>
+
+		<Modal
+			:set="theId = 'clear-modal'"
+			:modal-id="theId"
+			:is-open="openModals.includes(theId)"
+			cancel-text="Cancel"
+			@closeModal="closeModal"
+			@doAction="modalAction"
+		>
+			<template v-slot:title>Clear Board Elements</template>
+			<template v-slot:description>
+				<ul class="modal-options">
+					<li>
+						<button class="primary" @click="clearNotes">Clear Notes</button>
+					</li>
+					<li>
+						<button class="primary" @click="clearUnlocked">Clear Unlocked</button>
+					</li>
+					<li>
+						<button class="primary" @click="clearNotesAndUnlocked">Clear Notes & Unlocked</button>
+					</li>
+					<li>
+						<button class="danger" @click="clearAll">Clear EVERYTHING</button>
+					</li>
+				</ul>
+			</template>
+		</Modal>
 	</article>
 </template>
 
@@ -136,6 +234,19 @@
 		footer {
 			position: relative;
 			z-index: 99;
+		}
+	}
+
+	.modal-options {
+		li {
+			+ li {
+				margin-top: 15px;
+			}
+
+			button {
+				display: block;
+				width: 100%;
+			}
 		}
 	}
 </style>
