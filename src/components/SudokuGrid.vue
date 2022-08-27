@@ -74,6 +74,17 @@
 			this.$emit('state-change', this.gridState);
 		},
 		mounted() {
+			let puzzle;
+			const params = new Proxy(new URLSearchParams(window.location.search), {
+				get: (searchParams, prop) => searchParams.get(prop),
+			});
+
+			puzzle = params.puzzle;
+
+			if (puzzle) {
+				this.setPuzzle(puzzle);
+			}
+
 			this.focusActiveCellInput();
 			this.handleStateChange();
 
@@ -160,7 +171,7 @@
 
 				if (this.activeCell.val) {
 					const filtered = this.gridState.map(box => box.filter(
-							obj => obj.val === this.activeCell.val
+						obj => obj.val === this.activeCell.val
 					));
 					const cleaned = this.filterGridCells(filtered);
 
@@ -255,6 +266,34 @@
 			}
 		},
 		methods: {
+			setPuzzle(puzzle) {
+				const newState = puzzle.split('');
+				const chunkSize = 9;
+				const chunks = [];
+
+				for (let i = 0; i < newState.length; i += chunkSize) {
+					chunks.push(newState.slice(i, i + chunkSize));
+				}
+
+				if (newState.length === 81) {
+					for (let i = 0; i < chunks.length; i++) {
+						const gridRow = this.gridState.map(box => {
+							return box.filter(cell => cell.position.row === i);
+						});
+						const row = [].concat.apply([], gridRow);
+
+						for (let x = 0; x < chunks[i].length; x++) {
+							const val = chunks[i][x];
+
+							if (val.match(/[1-9]/)) {
+								row[x].val = parseInt(val);
+							}
+						}
+					}
+
+					this.checkErrors();
+				}
+			},
 			handleStateChange() {
 				this.$emit('state-change', this.gridState);
 			},

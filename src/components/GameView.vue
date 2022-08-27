@@ -25,17 +25,6 @@
 			},
 		},
 		mounted() {
-			let puzzle;
-			const params = new Proxy(new URLSearchParams(window.location.search), {
-				get: (searchParams, prop) => searchParams.get(prop),
-			});
-
-			puzzle = params.puzzle;
-
-			if (puzzle) {
-				this.setPuzzle(puzzle);
-			}
-
 			document.addEventListener('keydown', (e) => {
 				const numPadCodes = [];
 
@@ -60,34 +49,6 @@
 			});
 		},
 		methods: {
-			setPuzzle(puzzle) {
-				const newState = puzzle.split('');
-				const chunkSize = 9;
-				const chunks = [];
-
-				for (let i = 0; i < newState.length; i += chunkSize) {
-					chunks.push(newState.slice(i, i + chunkSize));
-				}
-
-				if (newState.length === 81) {
-					for (let i = 0; i < chunks.length; i++) {
-						const gridRow = this.gridState.map(box => {
-							return box.filter(cell => cell.position.row === i);
-						});
-						const row = [].concat.apply([], gridRow);
-
-						for (let x = 0; x < chunks[i].length; x++) {
-							const val = chunks[i][x];
-
-							if (val.match(/[1-9]/)) {
-								row[x].val = chunks[i][x];
-							}
-						}
-					}
-
-					this.$refs.game.checkErrors();
-				}
-			},
 			handleStateChange(state) {
 				this.gridState = state;
 			},
@@ -166,7 +127,7 @@
 		<main>
 			<SudokuGrid
 				ref="game"
-				@stateChange="handleStateChange"
+				@state-change="handleStateChange"
 				:note-mode="noteMode"
 				:shift-down="shiftDown"
 				:cells-with-value="cellsWithValue"
