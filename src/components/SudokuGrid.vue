@@ -19,7 +19,8 @@
 		data() {
 			return {
 				gridState: [],
-				cellsWithVal: []
+				cellsWithVal: [],
+				hasErrors: false,
 			};
 		},
 		created() {
@@ -292,6 +293,19 @@
 					}
 
 					this.checkErrors();
+
+					if (!this.hasErrors) {
+						const cellsWithValue = this.gridState.map(box => box.filter(
+								obj => obj.val
+						));
+						const cells = this.filterGridCells(cellsWithValue);
+
+						for (const cell of cells) {
+							cell.locked = true;
+						}
+
+						this.$emit('lock-puzzle');
+					}
 				}
 			},
 			handleStateChange() {
@@ -552,6 +566,7 @@
 
 						if (matchedVals.length && cell.val) {
 							for (const match of matchedVals) {
+								this.hasErrors = true;
 								match.error = true;
 							}
 						}
@@ -559,6 +574,8 @@
 				}
 			},
 			removeErrors() {
+				this.hasErrors = false;
+
 				for (const box of this.gridState) {
 					for (const cell of box) {
 						cell.error = false;

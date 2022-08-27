@@ -56,6 +56,10 @@
 				this.$refs.game.handleCellInput({ code: `Digit${num}` });
 				this.$refs.game.focusActiveCellInput();
 			},
+			lock() {
+				this.locked = true;
+				this.$refs.game.toggleLock(true);
+			},
 			toggleLock() {
 				this.locked = !this.locked;
 				this.$refs.game.toggleLock(this.locked);
@@ -127,6 +131,7 @@
 		<main>
 			<SudokuGrid
 				ref="game"
+				@lock-puzzle="lock"
 				@state-change="handleStateChange"
 				:note-mode="noteMode"
 				:shift-down="shiftDown"
