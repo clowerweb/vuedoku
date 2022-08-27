@@ -54,6 +54,7 @@
 
 					// Increment col
 					col++;
+
 					// Reset col
 					if ((k + 1) % 3 === 0) col = boxCol * 3;
 				}
@@ -63,11 +64,14 @@
 
 				// Increment boxCol
 				boxCol++;
+
 				// Reset boxCol
 				if ((i + 1) % 3 === 0) boxCol = 0;
 
 				this.gridState.push(box);
 			}
+
+			this.$emit('state-change', this.gridState);
 		},
 		mounted() {
 			this.focusActiveCellInput();
@@ -82,7 +86,7 @@
 			 * Returns the currently active (last focused) cell
 			 */
 			activeCell() {
-				const filtered = this.gridState.map((box) => {
+				const filtered = this.gridState.map(box => {
 					return box.filter(cell => cell.active);
 				});
 				const result = filtered.filter(result => result.length);
@@ -94,7 +98,7 @@
 			 */
 			cellsInBox() {
 				const results = this.gridState.map(box => box.filter(
-						obj => obj.position.box === this.activeCell?.position?.box
+					obj => obj.position.box === this.activeCell?.position?.box
 				));
 
 				return this.filterGridCells(results);
@@ -104,7 +108,7 @@
 			 */
 			cellsInRow() {
 				const results = this.gridState.map(box => box.filter(
-						obj => obj.position.row === this.activeCell?.position?.row
+					obj => obj.position.row === this.activeCell?.position?.row
 				));
 
 				return this.filterGridCells(results);
@@ -114,7 +118,7 @@
 			 */
 			cellsInCol() {
 				const results = this.gridState.map(box => box.filter(
-						obj => obj.position.col === this.activeCell?.position?.col
+					obj => obj.position.col === this.activeCell?.position?.col
 				));
 
 				return this.filterGridCells(results);
@@ -178,7 +182,7 @@
 				for (const cell of this.cellsWithActiveValue) {
 					// Cells in the same box
 					const boxCellsFilter = this.gridState.map(box => box.filter(
-							obj => obj.position.box === cell.position.box
+						obj => obj.position.box === cell.position.box
 					));
 					const boxCells = this.filterGridCells(boxCellsFilter);
 
@@ -190,7 +194,7 @@
 
 					// Cells in the same row
 					const rowCellsFilter = this.gridState.map(box => box.filter(
-							obj => obj.position.row === cell.position.row
+						obj => obj.position.row === cell.position.row
 					));
 					const rowCells = this.filterGridCells(rowCellsFilter);
 
@@ -202,7 +206,7 @@
 
 					// Cells in the same column
 					const colCellsFilter = this.gridState.map(box => box.filter(
-							obj => obj.position.col === cell.position.col
+						obj => obj.position.col === cell.position.col
 					));
 					const colCells = this.filterGridCells(colCellsFilter);
 
