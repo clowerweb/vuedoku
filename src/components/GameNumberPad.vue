@@ -6,22 +6,11 @@
 				required: true
 			}
 		},
-		computed: {
-			valuesUsed() {
-				const result = [];
-
-				for (const cell of this.cellsWithValue) {
-					result.push(cell.val);
-				}
-
-				return result;
-			}
-		},
 		methods: {
 			getRemaining(i) {
-				return 9 - this.valuesUsed.filter(x => x === i).length;
-			}
-		}
+				return 9 - this.cellsWithValue.filter(x => x.val === i).length;
+			},
+		},
 	};
 </script>
 
