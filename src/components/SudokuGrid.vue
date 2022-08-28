@@ -86,12 +86,7 @@
 				this.setPuzzle(puzzle);
 			}
 
-			this.focusActiveCellInput();
 			this.handleStateChange();
-
-			document.addEventListener('keypress', () => {
-				this.focusActiveCellInput();
-			});
 		},
 		computed: {
 			/**
@@ -363,76 +358,76 @@
 			 * Set the value of a cell
 			 */
 			handleCellInput(e) {
+				let key = e.code;
+
 				if (e.key) {
 					this.preventEvent(e);
 				}
 
-				if (!this.activeCell.locked) {
-					let key = e.code;
+				switch (key) {
+					case 'Digit1':
+					case 'Numpad1':
+						key = 1;
+						break;
+					case 'Digit2':
+					case 'Numpad2':
+						key = 2;
+						break;
+					case 'Digit3':
+					case 'Numpad3':
+						key = 3;
+						break;
+					case 'Digit4':
+					case 'Numpad4':
+						key = 4;
+						break;
+					case 'Digit5':
+					case 'Numpad5':
+						key = 5;
+						break;
+					case 'Digit6':
+					case 'Numpad6':
+						key = 6;
+						break;
+					case 'Digit7':
+					case 'Numpad7':
+						key = 7;
+						break;
+					case 'Digit8':
+					case 'Numpad8':
+						key = 8;
+						break;
+					case 'Digit9':
+					case 'Numpad9':
+						key = 9;
+						break;
+					case 'Backspace':
+					case 'Delete':
+						key = 'Delete';
+						break;
+				}
 
-					switch (key) {
-						case 'Digit1':
-						case 'Numpad1':
-							key = 1;
-							break;
-						case 'Digit2':
-						case 'Numpad2':
-							key = 2;
-							break;
-						case 'Digit3':
-						case 'Numpad3':
-							key = 3;
-							break;
-						case 'Digit4':
-						case 'Numpad4':
-							key = 4;
-							break;
-						case 'Digit5':
-						case 'Numpad5':
-							key = 5;
-							break;
-						case 'Digit6':
-						case 'Numpad6':
-							key = 6;
-							break;
-						case 'Digit7':
-						case 'Numpad7':
-							key = 7;
-							break;
-						case 'Digit8':
-						case 'Numpad8':
-							key = 8;
-							break;
-						case 'Digit9':
-						case 'Numpad9':
-							key = 9;
-							break;
-						case 'Backspace':
-						case 'Delete':
-							key = 'Delete';
-							break;
-						case 'Tab':
-							key = this.shiftDown ? 'ShiftTab' : 'Tab';
-							break;
-						default:
-							key = null;
+				if (key === 'Tab') {
+					key = this.shiftDown ? 'ShiftTab' : 'Tab';
+				}
+
+				if (key !== 'Delete') {
+					const numPadKeyCodes = [35, 40, 34, 37, 12, 39, 36, 38, 33];
+					const numPadCodes = [];
+					let input = parseInt(key);
+					let noteMode = this.noteMode;
+					console.log(e);
+
+					for (let i = 1; i < 10; i++) {
+						numPadCodes.push(`Numpad${i}`);
 					}
 
-					if (key !== 'Delete') {
-						const numPadKeyCodes = [35, 40, 34, 37, 12, 39, 36, 38, 33];
-						const numPadCodes = [];
-						let input = parseInt(key);
-						let noteMode = this.noteMode;
+					if(numPadKeyCodes.includes(e.keyCode) && numPadCodes.includes(e.code)) {
+						noteMode = true;
+					}
 
-						for (let i = 1; i < 10; i++) {
-							numPadCodes.push(`Numpad${i}`);
-						}
-
-						if(numPadKeyCodes.includes(e.keyCode) && numPadCodes.includes(e.code)) {
-							noteMode = true;
-						}
-
-						if (input > 0 && input < 10) {
+					if (input > 0 && input < 10) {
+						if (!this.activeCell.locked) {
 							if (!noteMode) {
 								this.activeCell.notes = [];
 								this.activeCell.val = input;
@@ -451,33 +446,33 @@
 
 							this.handleStateChange();
 						}
-
-						switch (e.code) {
-							case 'ArrowLeft':
-								this.handleCellFocus(this.previousCellInRow);
-								break;
-							case 'ArrowRight':
-								this.handleCellFocus(this.nextCellInRow);
-								break;
-							case 'ArrowUp':
-								this.handleCellFocus(this.previousCellInCol);
-								break;
-							case 'ArrowDown':
-								this.handleCellFocus(this.nextCellInCol);
-								break;
-						}
-
-						if (key === 'Tab') {
-							this.handleCellFocus(this.nextCellInTab);
-						} else if (key === 'ShiftTab') {
-							this.handleCellFocus(this.previousCellInTab);
-						}
-					} else {
-						this.activeCell.val = null;
-						this.activeCell.notes = [];
-						this.handleStateChange();
-						this.checkErrors();
 					}
+
+					switch (key) {
+						case 'ArrowLeft':
+							this.handleCellFocus(this.previousCellInRow);
+							break;
+						case 'ArrowRight':
+							this.handleCellFocus(this.nextCellInRow);
+							break;
+						case 'ArrowUp':
+							this.handleCellFocus(this.previousCellInCol);
+							break;
+						case 'ArrowDown':
+							this.handleCellFocus(this.nextCellInCol);
+							break;
+					}
+
+					if (key === 'Tab') {
+						this.handleCellFocus(this.nextCellInTab);
+					} else if (key === 'ShiftTab') {
+						this.handleCellFocus(this.previousCellInTab);
+					}
+				} else {
+					this.activeCell.val = null;
+					this.activeCell.notes = [];
+					this.handleStateChange();
+					this.checkErrors();
 				}
 
 				return false;
@@ -580,15 +575,6 @@
 					for (const cell of box) {
 						cell.error = false;
 					}
-				}
-			},
-			focusActiveCellInput() {
-				const activeCellContainer = document.getElementsByClassName('grid-cell active');
-
-				if (activeCellContainer && activeCellContainer.length) {
-					const input = activeCellContainer[0].getElementsByClassName('cell-val')[0];
-
-					input.focus();
 				}
 			},
 			toggleLock(isLocked) {
