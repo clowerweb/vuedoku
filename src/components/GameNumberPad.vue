@@ -24,8 +24,8 @@
       >
         {{ i }}
         <span>
-					{{ getRemaining(i) }}
-				</span>
+          {{ getRemaining(i) }}
+        </span>
       </button>
     </li>
   </ul>
