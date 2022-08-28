@@ -629,18 +629,18 @@
         @click="handleCellFocus(cell)"
       >
         <div class="cell-notes">
-					<span
+          <span
             v-for="i of 9"
             class="cell-note"
             :class="getNotesClass(cell, i)"
           >
-						{{ i }}
-					</span>
+            {{ i }}
+          </span>
         </div>
 
         <span class="cell-val">
-					{{ cell.val }}
-				</span>
+          {{ cell.val }}
+        </span>
       </div>
     </div>
   </div>
