@@ -60,13 +60,17 @@ button,
 button {
   -webkit-appearance: none;
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  color: #fff;
+  border: none;
   font-size: 18px;
-  padding: 12px 23px;
   position: relative;
   text-transform: none;
+
+  &.btn {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #fff;
+    padding: 12px 23px;
+  }
 
   &.primary {
     background-color: #0d6efd;
@@ -167,6 +171,31 @@ ol {
   &:after {
     clear: both;
   }
+}
+
+.sr {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.flex {
+  display: flex;
 }
 
 .pull-left {

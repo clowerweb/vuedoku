@@ -18,6 +18,7 @@
 	<ul class="btn-group">
 		<li v-for="i in 9">
 			<button
+				class="btn"
 				:class="getRemaining(i) === 0 ? 'secondary' : 'primary'"
 				@click="$emit('set-number', i)"
 			>
