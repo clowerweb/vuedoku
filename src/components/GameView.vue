@@ -156,7 +156,7 @@
 				@clear="openModal('clear-modal')"
 				@close-modal="closeModal"
 				@clear-notes="clearNotes"
-				@clear-unlocked="clearNotes"
+				@clear-unlocked="clearUnlocked"
 				@clear-notes-unlocked="clearNotesAndUnlocked"
 				@clear-all="clearAll"
 				:locked="locked"
