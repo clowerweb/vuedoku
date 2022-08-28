@@ -56,11 +56,11 @@
 
 			<footer class="clear">
 				<div class="pull-right">
-					<button type="button" class="secondary" @click="closeModal">{{ cancelText }}</button>
+					<button type="button" class="btn secondary" @click="closeModal">{{ cancelText }}</button>
 					<button
 						v-if="acceptText"
 						type="button"
-						class="primary"
+						class="btn primary"
 					>
 						{{ acceptText }}
 					</button>
@@ -107,7 +107,7 @@
 				opacity: .5;
 				padding: 8px;
 				position: absolute;
-				top: 0;
+				top: -50%;
 				right: 0;
 				width: 1em;
 				-webkit-appearance: button;
