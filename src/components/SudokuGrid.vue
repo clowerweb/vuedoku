@@ -72,7 +72,7 @@
 				this.gridState.push(box);
 			}
 
-			this.$emit('state-change', this.gridState);
+			this.handleStateChange();
 		},
 		mounted() {
 			let puzzle;
@@ -302,6 +302,8 @@
 						this.$emit('lock-puzzle');
 					}
 				}
+
+				this.handleStateChange();
 			},
 			handleStateChange() {
 				this.$emit('state-change', this.gridState);
@@ -313,7 +315,7 @@
 					}
 				}
 
-				this.$emit('state-change', this.gridState);
+				this.handleStateChange();
 			},
 			resetUnlocked() {
 				for (const box of this.gridState) {
@@ -324,11 +326,14 @@
 					}
 				}
 
-				this.$emit('state-change', this.gridState);
+				this.checkErrors();
+				this.handleStateChange();
 			},
 			resetNotesAndUnlocked() {
 				this.resetNotes();
 				this.resetUnlocked();
+				this.checkErrors();
+				this.handleStateChange();
 			},
 			resetBoard() {
 				for (const box of this.gridState) {
@@ -340,7 +345,7 @@
 					}
 				}
 
-				this.$emit('state-change', this.gridState);
+				this.handleStateChange();
 			},
 			/**
 			 * Handle the active state of cells when one is focused
