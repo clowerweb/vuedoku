@@ -1,11 +1,11 @@
 <script>
+	import GameSettings from '@/components/GameSettings.vue';
 	import SudokuGrid from '@/components/SudokuGrid.vue';
 	import GameNumberPad from '@/components/GameNumberPad.vue';
 	import GameControls from '@/components/GameControls.vue';
-	import Modal from '@/components/Modal.vue';
 
 	export default {
-		components: { SudokuGrid, GameNumberPad, GameControls, Modal },
+		components: { GameSettings, SudokuGrid, GameNumberPad, GameControls },
 		data() {
 			return {
 				locked: false,
@@ -128,6 +128,10 @@
 
 <template>
 	<article>
+		<header>
+			<GameSettings></GameSettings>
+		</header>
+
 		<main>
 			<SudokuGrid
 				ref="game"
@@ -155,37 +159,16 @@
 				@hint="hint"
 				@solve="solve"
 				@clear="openModal('clear-modal')"
+				@close-modal="closeModal"
+				@clear-notes="clearNotes"
+				@clear-unlocked="clearNotes"
+				@clear-notes-unlocked="clearNotesAndUnlocked"
+				@clear-all="clearAll"
 				:locked="locked"
 				:note-mode="noteMode"
+				:open-modals="openModals"
 			></GameControls>
 		</footer>
-
-		<Modal
-			:set="theId = 'clear-modal'"
-			:modal-id="theId"
-			:is-open="openModals.includes(theId)"
-			cancel-text="Cancel"
-			@closeModal="closeModal"
-			@doAction="modalAction"
-		>
-			<template v-slot:title>Clear Board Elements</template>
-			<template v-slot:description>
-				<ul class="modal-options">
-					<li>
-						<button class="primary" @click="clearNotes">Clear Notes</button>
-					</li>
-					<li>
-						<button class="primary" @click="clearUnlocked">Clear Unlocked</button>
-					</li>
-					<li>
-						<button class="primary" @click="clearNotesAndUnlocked">Clear Notes & Unlocked</button>
-					</li>
-					<li>
-						<button class="danger" @click="clearAll">Clear EVERYTHING</button>
-					</li>
-				</ul>
-			</template>
-		</Modal>
 	</article>
 </template>
 
@@ -200,19 +183,6 @@
 		footer {
 			position: relative;
 			z-index: 99;
-		}
-	}
-
-	.modal-options {
-		li {
-			+ li {
-				margin-top: 15px;
-			}
-
-			button {
-				display: block;
-				width: 100%;
-			}
 		}
 	}
 </style>
