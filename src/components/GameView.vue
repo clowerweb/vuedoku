@@ -54,7 +54,6 @@
 			},
 			setNumber(num) {
 				this.$refs.game.handleCellInput({ code: `Digit${num}` });
-				this.$refs.game.focusActiveCellInput();
 			},
 			lock() {
 				this.locked = true;
@@ -63,31 +62,27 @@
 			toggleLock() {
 				this.locked = !this.locked;
 				this.$refs.game.toggleLock(this.locked);
-				this.$refs.game.focusActiveCellInput();
 			},
 			toggleNotes() {
 				this.noteMode = !this.noteMode;
-				this.$refs.game.focusActiveCellInput();
 			},
 			quickNotes() {
 				this.$refs.game.quickNotes();
-				this.$refs.game.focusActiveCellInput();
 			},
 			erase() {
 				this.$refs.game.handleCellInput({ code: 'Delete' });
-				this.$refs.game.focusActiveCellInput();
 			},
 			undo() {
-				this.$refs.game.focusActiveCellInput();
+				//
 			},
 			redo() {
-				this.$refs.game.focusActiveCellInput();
+				//
 			},
 			hint() {
-				this.$refs.game.focusActiveCellInput();
+				//
 			},
 			solve() {
-				this.$refs.game.focusActiveCellInput();
+				//
 			},
 			clearNotes() {
 				this.$refs.game.resetNotes();
