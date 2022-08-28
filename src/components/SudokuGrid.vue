@@ -421,7 +421,6 @@
 					const numPadCodes = [];
 					let input = parseInt(key);
 					let noteMode = this.noteMode;
-					console.log(e);
 
 					for (let i = 1; i < 10; i++) {
 						numPadCodes.push(`Numpad${i}`);
@@ -650,27 +649,27 @@
 	#game-grid-container {
 		aspect-ratio: 1/1;
 		background-color: #333;
-		border-bottom: 4px solid #fff;
+		border-bottom: 4px solid rgba(233, 196, 106, 1);
 		box-shadow: 0 0 40px rgba(0, 0, 0, .8);
 		display: flex;
 		flex-wrap: wrap;
 
 		.grid-box {
 			aspect-ratio: 1/1;
-			border-left: 4px solid #fff;
-			border-top: 4px solid #fff;
+			border-left: 4px solid rgba(233, 196, 106, 1);
+			border-top: 4px solid rgba(233, 196, 106, 1);
 			display: flex;
 			flex-basis: 33.33%;
 			flex-wrap: wrap;
 
 			&:nth-of-type(3n) {
-				border-right: 4px solid #fff;
+				border-right: 4px solid rgba(233, 196, 106, 1);
 			}
 
 			.grid-cell {
 				aspect-ratio: 1/1;
-				border-bottom: 1px solid #fff;
-				border-right: 1px solid #fff;
+				border-bottom: 1px solid rgba(233, 196, 106, 1);
+				border-right: 1px solid rgba(233, 196, 106, 1);
 				flex-basis: 33.33%;
 				position: relative;
 
@@ -689,22 +688,22 @@
 				}
 
 				&.matched-in-range {
-					background-color: rgba(200, 150, 70, .3);
+					background-color: rgba(244, 162, 97, .4);
 				}
 
 				&.matched {
-					background-color: rgba(0, 180, 100, .3);
+					background-color: rgba(42, 157, 143, .5);
 
 					.cell-val {
-						color: rgba(0, 255, 100, 1);
+						color: rgba(220, 130, 30, 1);
 					}
 				}
 
 				&.error {
-					background-color: rgba(255, 50, 50, .3);
+					background-color: rgba(231, 111, 81, 1);
 
 					.cell-val {
-						color: rgba(220, 130, 30, .9);
+						color: rgba(120, 0, 0, 1);
 					}
 				}
 
@@ -715,14 +714,14 @@
 
 					&.error {
 						.cell-val {
-							color: rgba(255, 150, 150, 1);
+							color: rgba(255, 255, 255, 1);
 						}
 					}
 				}
 
 				&.active,
 				&:hover {
-					background-color: rgba(0, 191, 255, .3);
+					background-color: rgba(38, 70, 83, 1);
 				}
 
 				.cell-notes {
@@ -746,7 +745,7 @@
 						}
 
 						&.matched {
-							background-color: rgba(0, 215, 0, .5);
+							background-color: rgba(42, 157, 143, .5);
 						}
 					}
 				}

@@ -17,6 +17,7 @@
 	}
 
 	button {
+		color: #fff;
 		margin-left: auto;
 	}
 </style>
