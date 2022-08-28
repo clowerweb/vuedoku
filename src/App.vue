@@ -1,13 +1,13 @@
 <script setup>
-	import GameView from '@/components/GameView.vue';
+  import GameView from '@/components/GameView.vue';
 </script>
 
 <template>
-	<main>
-		<GameView></GameView>
-	</main>
+  <main>
+    <GameView></GameView>
+  </main>
 </template>
 
 <style lang="scss">
-	@import './assets/base.scss';
+  @import './assets/base.scss';
 </style>
