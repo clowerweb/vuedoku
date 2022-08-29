@@ -133,27 +133,14 @@ ol {
 	&.btn-group {
 		display: flex;
 		justify-content: center;
-		margin-top: 5px;
 
 		> li {
 			+ li {
-				border-left: 1px solid rgba(255, 255, 255, 1);
+				border-left: 1px solid rgba(233, 196, 106, 1)
 			}
 
 			button {
 				border-radius: 0;
-			}
-
-			&:first-of-type {
-				button {
-					border-radius: 4px 0 0 4px;
-				}
-			}
-
-			&:last-of-type {
-				button {
-					border-radius: 0 4px 4px 0;
-				}
 			}
 		}
 	}
