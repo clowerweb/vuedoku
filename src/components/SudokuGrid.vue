@@ -92,20 +92,20 @@
       /**
        * Returns the currently active (last focused) cell
        */
-      activeCell() {
+      activeCells() {
         const filtered = this.gridState.map(box => {
           return box.filter(cell => cell.active);
         });
-        const result = filtered.filter(result => result.length);
+        const results = filtered.filter(result => result.length);
 
-        return this.filterGridCells(result)[0] ?? [];
+        return this.filterGridCells(results)[0] ?? [];
       },
       /**
        * Returns all cells in the same box as the active cell
        */
       cellsInBox() {
         const results = this.gridState.map(box => box.filter(
-            obj => obj.position.box === this.activeCell?.position?.box,
+            obj => obj.position.box === this.activeCells?.position?.box,
         ));
 
         return this.filterGridCells(results);
@@ -115,7 +115,7 @@
        */
       cellsInRow() {
         const results = this.gridState.map(box => box.filter(
-            obj => obj.position.row === this.activeCell?.position?.row,
+            obj => obj.position.row === this.activeCells?.position?.row,
         ));
 
         return this.filterGridCells(results);
@@ -125,7 +125,7 @@
        */
       cellsInCol() {
         const results = this.gridState.map(box => box.filter(
-            obj => obj.position.col === this.activeCell?.position?.col,
+            obj => obj.position.col === this.activeCells?.position?.col,
         ));
 
         return this.filterGridCells(results);
@@ -138,21 +138,21 @@
 
         // Cells in the same box
         for (const boxCell of this.cellsInBox) {
-          if (boxCell.id !== this.activeCell.id) {
+          if (boxCell.id !== this.activeCells.id) {
             results.push(boxCell);
           }
         }
 
         // Cells in the same row
         for (const rowCell of this.cellsInRow) {
-          if (rowCell.id !== this.activeCell.id) {
+          if (rowCell.id !== this.activeCells.id) {
             results.push(rowCell);
           }
         }
 
         // Cells in the same column
         for (const colCell of this.cellsInCol) {
-          if (colCell.id !== this.activeCell.id) {
+          if (colCell.id !== this.activeCells.id) {
             results.push(colCell);
           }
         }
@@ -165,14 +165,14 @@
       cellsWithActiveValue() {
         const results = [];
 
-        if (this.activeCell.val) {
+        if (this.activeCells.val) {
           const filtered = this.gridState.map(box => box.filter(
-              obj => obj.val === this.activeCell.val,
+              obj => obj.val === this.activeCells.val,
           ));
           const cleaned = this.filterGridCells(filtered);
 
           for (const cell of cleaned) {
-            if (cell.id !== this.activeCell.id) {
+            if (cell.id !== this.activeCells.id) {
               results.push(cell);
             }
           }
@@ -231,31 +231,31 @@
         return results;
       },
       nextCellInRow() {
-        const cellsAhead = this.cellsInRow.filter(cell => cell.id > this.activeCell.id);
+        const cellsAhead = this.cellsInRow.filter(cell => cell.id > this.activeCells.id);
         return cellsAhead.length ? cellsAhead[0] : this.cellsInRow[0];
       },
       previousCellInRow() {
-        const cellsBehind = this.cellsInRow.filter(cell => cell.id < this.activeCell.id);
+        const cellsBehind = this.cellsInRow.filter(cell => cell.id < this.activeCells.id);
         return cellsBehind.length ? cellsBehind[cellsBehind.length - 1] : this.cellsInRow[8];
       },
       nextCellInCol() {
-        const cellsAhead = this.cellsInCol.filter(cell => cell.id > this.activeCell.id);
+        const cellsAhead = this.cellsInCol.filter(cell => cell.id > this.activeCells.id);
         return cellsAhead.length ? cellsAhead[0] : this.cellsInCol[0];
       },
       previousCellInCol() {
-        const cellsBehind = this.cellsInCol.filter(cell => cell.id < this.activeCell.id);
+        const cellsBehind = this.cellsInCol.filter(cell => cell.id < this.activeCells.id);
         return cellsBehind.length ? cellsBehind[cellsBehind.length - 1] : this.cellsInCol[8];
       },
       nextCellInTab() {
         const next = this.gridState.map(box => box.filter(
-            obj => obj.id === this.activeCell.id + 1,
+            obj => obj.id === this.activeCells.id + 1,
         ));
 
         return this.filterGridCells(next)[0] ?? this.gridState[0][0];
       },
       previousCellInTab() {
         const prev = this.gridState.map(box => box.filter(
-            obj => obj.id === this.activeCell.id - 1,
+            obj => obj.id === this.activeCells.id - 1,
         ));
 
         return this.filterGridCells(prev)[0] ?? this.gridState[8][8];
@@ -351,9 +351,9 @@
        * Handle the active state of cells when one is focused
        */
       handleCellFocus(cell) {
-        if (this.activeCell?.id !== cell.id) {
-          if (this.activeCell) {
-            this.activeCell.active = false;
+        if (this.activeCells?.id !== cell.id) {
+          if (this.activeCells) {
+            this.activeCells.active = false;
           }
 
           cell.active = true;
@@ -431,16 +431,16 @@
           }
 
           if (input > 0 && input < 10) {
-            if (!this.activeCell.locked) {
+            if (!this.activeCells.locked) {
               if (!noteMode) {
-                this.activeCell.notes = [];
-                this.activeCell.val = input;
+                this.activeCells.notes = [];
+                this.activeCells.val = input;
                 this.checkErrors();
 
                 for (const cell of this.cellsInRange) {
                   const idx = cell.notes.indexOf(input);
 
-                  if (idx > -1 && !this.activeCell.error) {
+                  if (idx > -1 && !this.activeCells.error) {
                     cell.notes.splice(cell.notes.indexOf(input), 1);
                   }
                 }
@@ -473,8 +473,8 @@
             this.handleCellFocus(this.previousCellInTab);
           }
         } else {
-          this.activeCell.val = null;
-          this.activeCell.notes = [];
+          this.activeCells.val = null;
+          this.activeCells.notes = [];
           this.handleStateChange();
           this.checkErrors();
         }
@@ -482,8 +482,8 @@
         return false;
       },
       handleNotes(input) {
-        if (!this.activeCell.val) {
-          const existingNotes = this.activeCell.notes;
+        if (!this.activeCells.val) {
+          const existingNotes = this.activeCells.notes;
           const existingIndex = existingNotes.indexOf(input);
           const valsInRange = this.filterGridCells(
               this.cellsInRange.filter(cell => cell.val === input));
@@ -505,7 +505,7 @@
        * Gets the class(es) a cell should have
        */
       getCellClass(cell) {
-        let cellClass = this.activeCell?.id === cell.id ? 'active' : '';
+        let cellClass = this.activeCells?.id === cell.id ? 'active' : '';
         cellClass += this.cellsInRange.includes(cell) ? ' in-range' : '';
         cellClass += this.cellsWithActiveValue.includes(cell) ? ' matched' : '';
         cellClass += this.matchedInRange.includes(cell) ? ' matched-in-range' : '';
@@ -516,7 +516,7 @@
       },
       getNotesClass(cell, i) {
         let notesClass = cell.notes.includes(i) ? 'active' : '';
-        notesClass += this.activeCell.val === i ? ' matched' : '';
+        notesClass += this.activeCells.val === i ? ' matched' : '';
 
         return notesClass;
       },
@@ -621,7 +621,7 @@
 
 <template>
   <div v-if="gridState.length" id="game-grid-container">
-    <div v-for="box in gridState" class="grid-box">
+    <div v-for="(box, idx) in gridState" class="grid-box" :class="`grid-box-${idx}`">
       <div
         v-for="cell in box"
         class="grid-cell"

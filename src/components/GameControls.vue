@@ -130,11 +130,9 @@
   ul.main-controls {
     > li {
       button {
+        border-top: 1px solid rgba(233, 196, 106, 1);
         padding-bottom: 22px;
-
-        &:nth-of-type(1) {
-          width: 65.78px;
-        }
+        width: 65.78px;
 
         > i {
           max-width: 17px;
@@ -151,6 +149,18 @@
           right: 0;
           text-align: center;
           width: 100%;
+        }
+      }
+
+      &:first-of-type {
+        button {
+          border-radius: 0 0 0 4px;
+        }
+      }
+
+      &:last-of-type {
+        button {
+          border-radius: 0 0 4px 0;
         }
       }
     }
