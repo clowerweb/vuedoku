@@ -2,7 +2,7 @@
   import Modal from '@/components/Modal.vue';
 
   export default {
-    components: {Modal},
+    components: { Modal },
     props: {
       locked: {
         type: Boolean,
@@ -58,7 +58,7 @@
       <li>
         <button class="btn primary" @click="$emit('erase')">
           <i class="fa-solid fa-eraser" aria-hidden="true"></i>
-          <span>Erase</span>
+          <span>Erase Cell</span>
         </button>
       </li>
       <li>

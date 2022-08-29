@@ -75,17 +75,6 @@
       this.handleStateChange();
     },
     mounted() {
-      let puzzle;
-      const params = new Proxy(new URLSearchParams(window.location.search), {
-        get: (searchParams, prop) => searchParams.get(prop),
-      });
-
-      puzzle = params.puzzle;
-
-      if (puzzle) {
-        this.setPuzzle(puzzle);
-      }
-
       this.handleStateChange();
     },
     computed: {
@@ -262,49 +251,6 @@
       },
     },
     methods: {
-      setPuzzle(puzzle) {
-        const newState = puzzle.split('');
-        const chunkSize = 9;
-        const chunks = [];
-
-        for (let i = 0; i < newState.length; i += chunkSize) {
-          chunks.push(newState.slice(i, i + chunkSize));
-        }
-
-        if (newState.length === 81) {
-          for (let i = 0; i < chunks.length; i++) {
-            const gridRow = this.gridState.map(box => {
-              return box.filter(cell => cell.position.row === i);
-            });
-            const row = [].concat.apply([], gridRow);
-
-            for (let x = 0; x < chunks[i].length; x++) {
-              const val = chunks[i][x];
-
-              if (val.match(/[1-9]/)) {
-                row[x].val = parseInt(val);
-              }
-            }
-          }
-
-          this.checkErrors();
-
-          if (!this.hasErrors) {
-            const cellsWithValue = this.gridState.map(box => box.filter(
-                obj => obj.val,
-            ));
-            const cells = this.filterGridCells(cellsWithValue);
-
-            for (const cell of cells) {
-              cell.locked = true;
-            }
-
-            this.$emit('lock-puzzle');
-          }
-        }
-
-        this.handleStateChange();
-      },
       handleStateChange() {
         this.$emit('state-change', this.gridState);
       },

@@ -17,7 +17,6 @@
       cancelText: {
         type: String,
         required: false,
-        default: 'Close',
       },
     },
     methods: {
@@ -56,11 +55,19 @@
 
       <footer class="clear">
         <div class="pull-right">
-          <button type="button" class="btn secondary" @click="closeModal">{{ cancelText }}</button>
+          <button
+            v-if="cancelText"
+            type="button"
+            class="btn secondary"
+            @click="closeModal"
+          >
+            {{ cancelText }}
+          </button>
+
           <button
             v-if="acceptText"
             type="button"
-            class="btn primary"
+            class="btn success"
           >
             {{ acceptText }}
           </button>
@@ -82,6 +89,7 @@
     top: calc(-100%);
     transition: top .4s ease-in-out, opacity .6s ease-in-out;
     width: 100%;
+    z-index: 999;
 
     &.active {
       display: block;
